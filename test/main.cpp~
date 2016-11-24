@@ -2,7 +2,7 @@
 #include"../src/schedule.h"
 #include"../src/coroutine.h"
 #include<memory>
-using namespace JC;
+using namespace std;
 struct args{
     int n;
 };
