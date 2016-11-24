@@ -11,7 +11,7 @@ Schedule::resume() continue a coroutinue.
 Schedule::yield() suspends a coroutine.
 
 
-Get Start:
+##Get Start:
 
 	struct args{
 	    int n;
@@ -44,7 +44,8 @@ Get Start:
 	    }
 	}
 
-Output:
+##Output:
+
 	coroutine 0 1
 
 	coroutine 1 101
