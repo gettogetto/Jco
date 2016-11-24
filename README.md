@@ -45,8 +45,8 @@ Schedule::yield() suspends a coroutine.
 	    while(co1->getStatus()||co2->getStatus()){
 		if(count==5) s->remove(id1);
 		if(count==40) s->remove(id2);
-		s->resume(0);
-		s->resume(1);
+		s->resume(id1);
+		s->resume(id2);
 		count++;
 	    }
 	}
