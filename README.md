@@ -17,7 +17,7 @@ Schedule::yield() suspends a coroutine.
 	#include"../src/schedule.h"
 	#include"../src/coroutine.h"
 	#include<memory>
-	using namespace std;
+	using namespace JC;
 	struct args{
 	    int n;
 	};
