@@ -12,7 +12,7 @@ public:
     using CoMap = std::unordered_map<int,std::shared_ptr<Coroutine>>;
     enum{_STACKSIZE = 1024*1024,_MAX_CO_NUM = 10};
    // enum{DEAD,READY,RUNNING,SUSPEND};
-    Schedule();
+    Schedule(int num=10);
     ~Schedule();
 
     void add(std::shared_ptr<Coroutine> coroutine);

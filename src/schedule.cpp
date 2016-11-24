@@ -12,8 +12,8 @@ void mainfunc(uint32_t low32,uint32_t high32)
     c->runFunc();
 }
 
-Schedule::Schedule():
-    _co_cur_num(0),_co_max_num(_MAX_CO_NUM),_cur_run_id(-1)
+Schedule::Schedule(int num):
+    _co_cur_num(0),_co_max_num(num),_cur_run_id(-1)
 {
 
 }
@@ -28,7 +28,7 @@ void Schedule::add(std::shared_ptr<Coroutine> coroutine)
 {
     assert(_co_cur_num<_co_max_num);
     _map[coroutine->getId()]=coroutine;
-
+    _co_cur_num++;	
 }
 
 void Schedule::remove(int coroutine_id)
@@ -39,6 +39,7 @@ void Schedule::remove(int coroutine_id)
     }
     _map[coroutine_id]->setStatus(Coroutine::DEAD);
     _map.erase(coroutine_id);
+    _co_cur_num--;
 
 }
 
