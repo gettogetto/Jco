@@ -33,7 +33,8 @@ namespace JC{
 	    CoMap _map;
 
 
-	    friend  void mainfunc(uint32_t low32,uint32_t high32);
+	    //friend  void mainfunc(uint32_t low32,uint32_t high32);
+	    friend  void mainfunc(void *ptr);
 	};
 }
 #endif // SCHEDULE_H

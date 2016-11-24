@@ -3,9 +3,17 @@
 #include<assert.h>
 #include<string.h>
 namespace JC{
-	void mainfunc(uint32_t low32,uint32_t high32)
+	/*void mainfunc(uint32_t low32,uint32_t high32)
 	{
 	    uintptr_t ptr=(uintptr_t)low32|((uintptr_t)high32<<32);
+	    Schedule* s = reinterpret_cast<Schedule*>(ptr);
+	    int id = s->_cur_run_id;
+	    std::shared_ptr<Coroutine> c = s->_map[id];
+	    c->runFunc();
+	}*/
+	void mainfunc(void* ptr)
+	{
+	    
 	    Schedule* s = reinterpret_cast<Schedule*>(ptr);
 	    int id = s->_cur_run_id;
 	    std::shared_ptr<Coroutine> c = s->_map[id];
@@ -59,7 +67,8 @@ namespace JC{
 		    _cur_run_id=coroutine_id;
 		    coroutine->setStatus(Coroutine::RUNNING);
 		    uintptr_t pt = reinterpret_cast<uintptr_t>(this);
-		    makecontext(&coroutine->_context,reinterpret_cast<void(*)()>(&mainfunc),2,(uint32_t)pt,(uint32_t)(pt>>32));
+		    //makecontext(&coroutine->_context,reinterpret_cast<void(*)()>(&mainfunc),2,(uint32_t)pt,(uint32_t)(pt>>32));
+		    makecontext(&coroutine->_context,reinterpret_cast<void(*)()>(&mainfunc),1,this);
 		    swapcontext(&this->_nextContext,&coroutine->_context);
 
 
