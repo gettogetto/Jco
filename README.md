@@ -11,142 +11,66 @@ Schedule::resume() continue a coroutinue.
 Schedule::yield() suspends a coroutine.
 
 
-##Get Start:
+##Example:
 
-	#include <iostream>
-	#include"../src/schedule.h"
-	#include"../src/coroutine.h"
-	#include<memory>
-	using namespace JC;
-	struct args{
-	    int n;
-	};
+#include"schedule.h"
+#include"coroutine.h"
+#include<iostream>
+using namespace JC;
+using namespace std;
 
-	void func(std::shared_ptr<Schedule> s,void *ud){
-	    struct args* arg = (args*)ud;
-	    int start = arg->n;
-	    for(int i=0;i<50;i++){
-		std::cout<<"coroutine "<<s->getCurCoroutineId()<<" "<<start+i<<std::endl;
-		s->yield();
-	    }
-	}
-	void test(){
-	    args arg1{1};
-	    args arg2{101};
-	    int co_num = 2;
-	    std::shared_ptr<Schedule> s(new Schedule(co_num));
-	    int id1=0,id2=1;
-	    std::shared_ptr<Coroutine> co1(new Coroutine(s,std::bind(&func,s,&arg1),id1));
-	    std::shared_ptr<Coroutine> co2(new Coroutine(s,std::bind(&func,s,&arg2),id2));
+void func1(std::shared_ptr<Schedule> s){
+    cout<<"1"<<endl;
+    cout<<"2"<<endl;
+    s->yield();
+    cout<<"3"<<endl;
+    s->yield();
+}
+void func2(std::shared_ptr<Schedule> s){
+    cout<<"a"<<endl;
+    s->yield();
+    cout<<"b"<<endl;
+    cout<<"c"<<endl;
+    s->yield();
+}
+void func3(std::shared_ptr<Schedule> s){
+    cout<<"x"<<endl;
+    s->yield();
+    cout<<"y"<<endl;
+    cout<<"z"<<endl;
+    s->yield();
+}
 
-	    s->add(co1);
-	    s->add(co2);
-	    int count = 0;
-	    while(co1->getStatus()||co2->getStatus()){
-		if(count==5) s->remove(id1);
-		if(count==40) s->remove(id2);
-		s->resume(id1);
-		s->resume(id2);
-		count++;
-	    }
-	}
 
-	int main(int argc, char *argv[])
-	{
-	    test();
-	    return 0;
 
-	}
+int co_num = 3;
+int id1=0,id2=1,id3=2;
+std::shared_ptr<Schedule> s(new Schedule(co_num));
+std::shared_ptr<Coroutine> co1(new Coroutine(s,std::bind(&func1,s),id1));
+std::shared_ptr<Coroutine> co2(new Coroutine(s,std::bind(&func2,s),id2));
+std::shared_ptr<Coroutine> co3(new Coroutine(s,std::bind(&func3,s),id3));
+
+int main(){
+   s->add(co1);
+   s->add(co2);
+   s->add(co3);
+   s->resume(id1);
+   s->resume(id2);
+   s->resume(id3);
+   s->resume(id1);
+   s->resume(id2);
+   s->resume(id3);
+}
 
 ##Output:
 
-	coroutine 0 1
-
-	coroutine 1 101
-
-	coroutine 0 2
-
-	coroutine 1 102
-
-	coroutine 0 3
-
-	coroutine 1 103
-
-	coroutine 0 4
-
-	coroutine 1 104
-
-	coroutine 0 5
-
-	coroutine 1 105
-
-	coroutine 1 106
-
-	coroutine 1 107
-
-	coroutine 1 108
-
-	coroutine 1 109
-
-	coroutine 1 110
-
-	coroutine 1 111
-
-	coroutine 1 112
-
-	coroutine 1 113
-
-	coroutine 1 114
-
-	coroutine 1 115
-
-	coroutine 1 116
-
-	coroutine 1 117
-
-	coroutine 1 118
-
-	coroutine 1 119
-
-	coroutine 1 120
-
-	coroutine 1 121
-
-	coroutine 1 122
-
-	coroutine 1 123
-
-	coroutine 1 124
-
-	coroutine 1 125
-
-	coroutine 1 126
-
-	coroutine 1 127
-
-	coroutine 1 128
-
-	coroutine 1 129
-
-	coroutine 1 130
-
-	coroutine 1 131
-
-	coroutine 1 132
-
-	coroutine 1 133
-
-	coroutine 1 134
-
-	coroutine 1 135
-
-	coroutine 1 136
-
-	coroutine 1 137
-
-	coroutine 1 138
-
-	coroutine 1 139
-
-	coroutine 1 140
+1
+2
+a
+x
+3
+b
+c
+y
+z
 
