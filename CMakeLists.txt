@@ -4,4 +4,4 @@ SET(CMAKE_C_COMPILER g++)
 add_compile_options(-std=c++11)
 aux_source_directory(. SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
-
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
